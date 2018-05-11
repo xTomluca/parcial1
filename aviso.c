@@ -3,25 +3,16 @@
 #include <time.h>
 #include <string.h>
 #include "aviso.h"
-#include "utn.h"
 #include "cliente.h"
-
-
-
-
-static int proximoId(void);
-static int buscarLugarLibre(Aviso* array,int limite);
-//__________________
-
-
+#include "utn.h"
 
 /** \brief
- * \param array Cliente*
+ * \param array Aviso*
  * \param limite int
  * \return int
  *
  */
-int aviso_init(Aviso* array,int limite)
+int usuario_init(Aviso* array,int limite)
 {
     int retorno = -1;
     int i;
@@ -36,41 +27,59 @@ int aviso_init(Aviso* array,int limite)
     return retorno;
 }
 
-
-int aviso_alta(Aviso* arrayC,int limite,
-              Cliente* clientes, int lenClientes)
+int usuario_mostrarDebug(Aviso* array,int limite)
 {
     int retorno = -1;
     int i;
-    int idPant;
-    int rubro;
-    char texto[64];
-    int posPant;
-
-
-
-    if(limite > 0 && arrayC != NULL)
+    if(limite > 0 && array != NULL)
     {
-        i = buscarLugarLibre(arrayC,limite);
+        retorno = 0;
+        for(i=0;i<limite;i++)
+        {
+            printf("[DEBUG] - %d - %s - %d\n",array[i].idAviso, array[i].nombre, array[i].isEmpty);
+        }
+    }
+    return retorno;
+}
+
+int usuario_mostrar(Aviso* array,int limite)
+{
+    int retorno = -1;
+    int i;
+    if(limite > 0 && array != NULL)
+    {
+        retorno = 0;
+        for(i=0;i<limite;i++)
+        {
+            if(!array[i].isEmpty)
+                printf("[RELEASE] - %d - %s - %d\n",array[i].idAviso, array[i].nombre, array[i].isEmpty);
+        }
+    }
+    return retorno;
+}
+
+int usuario_alta(Aviso* array,int limite)
+{
+    int retorno = -1;
+    int i;
+    char buffer[50];
+    if(limite > 0 && array != NULL)
+    {
+        i = buscarLugarLibre(array,limite);
         if(i >= 0)
         {
-            getValidInt("\nID?\n","\nNumero no valido\n",&idPant,0,999999,2);
-            posPant = cliente_buscarPorIdCliente(clientes,lenClientes,idPant);
-            if(posPant>=0)
+            if(!getValidString("\nNombre? ","\nEso no es un nombre","El maximo es 40",buffer,40,2))
             {
-                if(!getValidInt("\nRUBRO?","\nNumero no valido\n",&rubro,0,999999,2))
-                {
-                    if(!getValidString("\nINGRESE TEXTO AVISO: \n","INVALIDO\n","MAXIMO 64 CAR\n",texto,64,2))
-                    {
-                        retorno = 0;
-                        arrayC[i].idCliente = idPant;
-                        arrayC[i].rubro=rubro;
-                        strcpy(arrayC[i].texto,texto);
-                        arrayC[i].isEmpty=0;
-                        arrayC[i].id = proximoId();
-                        printf("\nID AVISO: %d\n",arrayC[i].id);
-                    }
-                }
+                retorno = 0;
+                strcpy(array[i].nombre,buffer);
+                //------------------------------
+                //------------------------------
+                array[i].idAviso = proximoId();
+                array[i].isEmpty = 0;
+            }
+            else
+            {
+                retorno = -3;
             }
         }
         else
@@ -82,7 +91,94 @@ int aviso_alta(Aviso* arrayC,int limite,
     return retorno;
 }
 
-static int buscarLugarLibre(Aviso* array,int limite)
+
+int usuario_baja(Aviso* array,int limite, int id)
+{
+    int retorno = -1;
+    int i;
+    if(limite > 0 && array != NULL)
+    {
+        retorno = -2;
+        for(i=0;i<limite;i++)
+        {
+            if(!array[i].isEmpty && array[i].idAviso==id)
+            {
+                array[i].isEmpty = 1;
+                retorno = 0;
+                break;
+            }
+        }
+    }
+    return retorno;
+}
+
+
+
+
+int usuario_modificacion(Aviso* array,int limite, int id)
+{
+    int retorno = -1;
+    int i;
+    char buffer[50];
+    if(limite > 0 && array != NULL)
+    {
+        retorno = -2;
+        for(i=0;i<limite;i++)
+        {
+            if(!array[i].isEmpty && array[i].idAviso==id)
+            {
+                if(!getValidString("\nNombre? ","\nEso no es un nombre","El maximo es 40",buffer,40,2))
+                {
+                    retorno = 0;
+                    strcpy(array[i].nombre,buffer);
+                    //------------------------------
+                    //------------------------------
+                }
+                else
+                {
+                    retorno = -3;
+                }
+                retorno = 0;
+                break;
+            }
+        }
+    }
+    return retorno;
+}
+
+int usuario_ordenar(Aviso* array,int limite, int orden)
+{
+    int retorno = -1;
+    int i;
+    int flagSwap;
+    Aviso auxiliarEstructura;
+
+    if(limite > 0 && array != NULL)
+    {
+        do
+        {
+            flagSwap = 0;
+            for(i=0;i<limite-1;i++)
+            {
+                if(!array[i].isEmpty && !array[i+1].isEmpty)
+                {
+                    ///COMPARA CARACTER CON CARACTER SI EL PRIMERO ESTA ANTES EN EL ABC DEVUELVE +
+                    ///IGUALES DEVUELVE 0
+                    if(( strcmp(array[i].nombre, array[i+1].nombre) > 0 && orden) || (strcmp(array[i].nombre,array[i+1].nombre) < 0 && !orden)) //******
+                    {
+                        auxiliarEstructura = array[i];
+                        array[i] = array[i+1];
+                        array[i+1] = auxiliarEstructura;
+                        flagSwap = 1;
+                    }
+                }
+            }
+        }while(flagSwap);
+    }
+    return retorno;
+}
+
+int buscarLugarLibre(Aviso* array,int limite)
 {
     int retorno = -1;
     int i;
@@ -101,87 +197,33 @@ static int buscarLugarLibre(Aviso* array,int limite)
 }
 
 
-
-static int proximoId(void)
+int proximoId()
 {
     static int proximoId = -1;
     proximoId++;
     return proximoId;
 }
 
-int pausarPublicacion(Aviso* array, int limite){
-    int id,retorno=1,confirmar=0;
-    if(limite > 0 && array != NULL)
-    {
-        if(!getValidInt("ID?","\nNumero no valido\n",&id,0,1000,2))
-        {
-            if(array[id].id==id && array[id].isEmpty != 1 && array[id].isEmpty == 0)
-            {
-                getValidInt("DESEA CONTINUAR?? 1 = (SI) / 8 (NO): ","\nINVALIDO\n",&confirmar,0,1,2);
-                if(confirmar)
-                {
-                    retorno=0;
-                    array[id].isEmpty=2;
-                }
-            }
-        }
-    }
-    return retorno;
-}
-
-int reanudarPublicacion(Aviso* array, int limite){
-    int id,retorno=1,confirmar=0;
-    if(limite > 0 && array != NULL)
-    {
-        if(!getValidInt("ID?","\nNumero no valido\n",&id,0,1000,2))
-        {
-            if(array[id].id==id && array[id].isEmpty != 1 && array[id].isEmpty == 2)
-            {
-                getValidInt("DESEA CONTINUAR?? 1 = (SI) / 8 (NO): ","\nINVALIDO\n",&confirmar,0,1,2);
-                if(confirmar)
-                {
-                    retorno=0;
-                    array[id].isEmpty=0;
-                }
-            }
-        }
-    }
-    return retorno;
-}
-
-int aviso_mostrar(Cliente* array,Aviso* arrayAviso,int limiteC, int limiteA)
+int aviso_altaForzada(Aviso* arrayC,int limite,
+              Cliente* pantallas, int lenPantallas,
+              int idPantalla,char* archivo,char* cuit,int dias)
 {
     int retorno = -1;
-    int i,j,cantidad;
-    if(limiteC > 0 && array != NULL)
+    int i;
+    int posPant;
+    if(limite > 0 && arrayC != NULL)
     {
-        retorno = 0;
-        for(i=0;i<limiteC;i++)
+        i = buscarLugarLibre(arrayC,limite);
+        if(i >= 0)
         {
-            for(j=0;j<limiteA;i++)
-            {
-                if(array[i].idCliente==arrayAviso[j].id)
-                {
-                    cantidad+=1;
-                }
-            }
-            if(cantidad>=0)
-            {
-                if(!array[i].isEmpty)
-                printf("ID US: - %d - NOMBRE: %s - APELLIDO: %s - CUIT: %.0f - ESTADO = %d\n",array[i].idCliente, array[i].nombre, array[i].apellido, array[i].cuit, array[i].isEmpty);
-            }
 
+            posPant = pantalla_buscarPorId(pantallas,lenPantallas,idPantalla);
+            if(posPant>=0)
+            {
+
+            }
         }
+        retorno = 0;
     }
     return retorno;
 }
-
-
-
-
-
-
-
-
-
-

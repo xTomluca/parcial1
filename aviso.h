@@ -1,28 +1,25 @@
 #ifndef AVISO_H_INCLUDED
 #define AVISO_H_INCLUDED
+#include "cliente.h"
 typedef struct
 {
-    int idCliente;
-    int rubro;
-    char texto[64];
+    char nombre[50];
     //------------
-    int id;
+    int idAviso;
     int isEmpty;
 }Aviso;
-
-#include "cliente.h"
+#endif // FANTASMA_H_INCLUDED
 
 
 int aviso_init(Aviso* array,int limite);
-int aviso_alta(Aviso* arrayC,int limite,
-              Cliente* pantallas, int lenClientes);
-
+int aviso_mostrar(Aviso* array,int limite);
+int aviso_mostrarDebug(Aviso* array,int limite);
+int aviso_alta(Aviso* array,int limite);
 int aviso_baja(Aviso* array,int limite, int id);
-int aviso_mostrar(Cliente* array,Aviso* arrayAviso,int limiteC, int limiteA);
-int pausarPublicacion(Aviso* array, int limite);
-int reanudarPublicacion(Aviso* array, int limite);
-int aviso_altaForzada(Aviso* arrayC,int limite,Cliente* pantallas, int lenClientes,int idCliente,char* archivo,char* cuit,int dias);
-
-#endif // PANTALLA_H_INCLUDED
+int aviso_modificacion(Aviso* array,int limite, int id);
+int aviso_ordenar(Aviso* array,int limite, int orden);
+int buscarLugarLibreAviso(Aviso* array,int limite);
+int proximoId();
+int aviso_altaForzada();
 
 

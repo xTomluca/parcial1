@@ -31,17 +31,13 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="Contratacion.c">
+		<Unit filename="fantasma.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="Contratacion.h" />
+		<Unit filename="fantasma.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="pantalla.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="pantalla.h" />
 		<Unit filename="utn.c">
 			<Option compilerVar="CC" />
 		</Unit>
