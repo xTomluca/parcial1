@@ -147,7 +147,7 @@
 
 1525305074 d:\clase12\informar.h
 
-1525996726 source:d:\parcial tls\clase12_2\contratacion.c
+1526000362 source:d:\parcial tls\clase12_2\contratacion.c
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
@@ -156,10 +156,10 @@
 	"utn.h"
 	"Pantalla.h"
 
-1525995619 d:\parcial tls\clase12_2\contratacion.h
+1526000325 d:\parcial tls\clase12_2\contratacion.h
 	"pantalla.h"
 
-1525992743 d:\parcial tls\clase12_2\pantalla.h
+1526000397 d:\parcial tls\clase12_2\pantalla.h
 
 1524691840 d:\parcial tls\clase12_2\utn.h
 
@@ -172,7 +172,7 @@
 	"utn.h"
 	"Pantalla.h"
 
-1525997103 source:d:\parcial tls\clase12_2\main.c
+1526000378 source:d:\parcial tls\clase12_2\main.c
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
@@ -180,15 +180,15 @@
 	"pantalla.h"
 	"utn.h"
 	"Contratacion.h"
-	"informar.h"
 
 1525991255 d:\parcial tls\clase12_2\informar.h
 
-1525996918 source:d:\parcial tls\clase12_2\pantalla.c
+1526000247 source:d:\parcial tls\clase12_2\pantalla.c
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
 	<string.h>
+	"Contratacion.h"
 	"pantalla.h"
 	"utn.h"
 

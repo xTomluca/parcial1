@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
-#include "pantalla.h"
+#include "cliente.h"
 #include "utn.h"
-#include "Contratacion.h"
-#include "informar.h"
+#include "aviso.h"
+
 
 int main()
 {
@@ -18,33 +18,28 @@ int main()
     aviso_init(aviso,1000);
 
     cliente_altaForzada(array,100,"Pepe","Cabrera",305359554);
-    cliente_altaForzada(array,100,"Josesito","Belgrano 250",301212054);
-    cliente_altaForzada(array,100,"Martin","Cerrito 300",333554780);
-    cliente_altaForzada(array,100,"Mario","Lavalle 450",32554896);
-    cliente_altaForzada(array,100,"Dimitri","Mitre 150",35335673);
-    cliente_altaForzada(array,100,"Arturito","Cerrito 300",33335600);
-
-
-
-
+    cliente_altaForzada(array,100,"Josesito","Belgrano",301212054);
+    cliente_altaForzada(array,100,"Martin","Cerrito",333554780);
+    cliente_altaForzada(array,100,"Mario","Lavalle",32554896);
+    cliente_altaForzada(array,100,"Dimitri","Mitre",35335673);
+    cliente_altaForzada(array,100,"Arturito","Cerrito",33335600);
 
     do
     {
-        getValidInt("\n\n1.Alta\n2.Baja\n3.Modificar\n4.Mostrar\n5.Ordenar\n6.Mostrar Debug\n7.Contratar\n9.Salir\n","\nNo valida\n",&menu,1,15,1);
+        getValidInt("\n\n1.Alta\n2.Baja\n3.Modificar\n4.Publicar\n5.Pausar Publicacion\n6.Reanudar\n7.Imprimir clientes\n9.Salir\n\n","\nNo valida\n",&menu,1,15,1);
         switch(menu)
         {
             case 1:
                 cliente_alta(array, 100);
                 break;
             case 2:
-                if(!getValidInt("INGRESE ID","ID INVALIDO", &auxiliarId, 0,100,2))
+                if(!getValidInt("\nINGRESE ID: ","ID INVALIDO", &auxiliarId, 0,100,2))
                 {
                     cliente_modificacion(array, 100,auxiliarId);
                 }
-
                 break;
             case 3:
-                if(!getValidInt("INGRESE ID","ID INVALIDO", &auxiliarId, 0,100,2))
+                if(!getValidInt("\nINGRESE ID","ID INVALIDO", &auxiliarId, 0,100,2))
                 {
                     cliente_baja(array, 100,auxiliarId);
                 }
@@ -59,13 +54,7 @@ int main()
                 reanudarPublicacion(aviso, 1000);
                 break;
             case 7:
-                cliente_mostrar(array, 100);
-                break;
-            case 8:
-
-                break;
-            case 10:
-
+                aviso_mostrar(array,aviso, 100, 1000);
                 break;
         }
 
